@@ -48,19 +48,25 @@ public class AuthorizationFilter implements GlobalFilter,Ordered,InitializingBea
      */
     private PublicKey publicKey;
 
-
+    /**
+     * 全局的过滤器
+     * @param exchange
+     * @param chain
+     * @return
+     */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-
+        //获取请求的路径
         String currentUrl = exchange.getRequest().getURI().getPath();
 
         //1:不需要认证的url
+        //如果不需要验证，直接返回
         if(shouldSkip(currentUrl)) {
             //log.info("跳过认证的URL:{}",currentUrl);
             return chain.filter(exchange);
         }
 
-        //log.info("需要认证的URL:{}",currentUrl);
+        log.info("需要认证的URL:{}",currentUrl);
 
         //第一步:解析出我们Authorization的请求头  value为: “bearer XXXXXXXXXXXXXX”
         String authHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
@@ -94,7 +100,7 @@ public class AuthorizationFilter implements GlobalFilter,Ordered,InitializingBea
 
         String loginUserInfo = JSON.toJSONString(claims);
 
-        //log.info("jwt的用户信息:{}",loginUserInfo);
+        log.info("jwt的用户信息:{}",loginUserInfo);
 
         String memberId = claims.get("additionalInfo",Map.class).get("memberId").toString();
 

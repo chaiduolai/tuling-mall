@@ -1,0 +1,8 @@
+1.首先需要启动auth服务。
+2.启动网关，在启动的时候网关的配置类实现了InitializingBean接口，重写afterPropertiesSet方法，
+从认证服务器拿到公钥，把公钥赋值给publicKey，网关启动成功。
+调用认证服务器接口的时候http://tulingmall-authcenter/oauth/token_key，如果我们使用原生的RestTemplate调取会失败，所以我们需要重写doExecute方法，
+将路径进行拼接。
+3.启动会员服务，启动成功以后，调用用户登录接口，采用用户名密码方式登录，
+登录成功以后调取http://tulingmall-authcenter/oauth/token接口获取token,用户登陆信息存储到请求头中.
+4.调用其他接口，携带token,首先网关判断此token是否有效，如果有效放行，调用真真的方法，否则返回调动失败
