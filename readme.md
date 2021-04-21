@@ -18,5 +18,5 @@ rocketmq:
     asyncOrderGroup: async-order-group #异步下单消息消费
 ```
 
-### 图灵电商项目微服务架构图
+### 电商项目微服务架构图
 ![jiagou.jpg](http://git.jiagouedu.com/java-vip/tuling-mall/raw/master/Document/tuling-mall%e5%95%86%e5%9f%8e%e5%be%ae%e6%9c%8d%e5%8a%a1%e6%9e%b6%e6%9e%84%e5%9b%be.jpg)
